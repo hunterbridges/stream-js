@@ -28,13 +28,10 @@ exports.sign = function(apiSecret, feedId) {
 	 * token: UbbVK4LVON51gMXjuKViTDHxo9s
 	 */
 
-	//var hashedSecret = new crypto.createHash('sha1').update(apiSecret).digest();
-	//var hmac = crypto.createHmac('sha1', hashedSecret);
-	//var digest = hmac.update(feedId).digest('base64');
-	//var token = makeUrlSafe(digest);
-
-  var shaObj = new jsSHA(feedId);
-  var hmac = shaObj.getHMAC(apiSecret, "TEXT", "SHA-1", "B64");
+  var secretObj = new jsSHA(apiSecret, "TEXT");
+  var hash = secretObj.getHash("SHA-1", "HEX");
+  var digestObj = new jsSHA(feedId, "TEXT");
+  var hmac = digestObj.getHMAC(hash, "HEX", "SHA-1", "B64");
   var token = makeUrlSafe(hmac);
 	return token;
 };

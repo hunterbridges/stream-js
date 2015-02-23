@@ -2,7 +2,6 @@ var request = require('request');
 var StreamFeed = require('./feed');
 var signing = require('./signing');
 var errors = require('./errors');
-var crypto = require('crypto');
 var utils = require('./utils');
 
 var StreamClient = function() {
@@ -111,11 +110,11 @@ StreamClient.prototype = {
         if (!feedSlug || !userId) {
             throw new errors.FeedError('Please provide a feed slug and user id, ie client.feed("user", "1")');
         }
-        
+
         if (feedSlug.indexOf(':') != -1) {
         	throw new errors.FeedError('Please initialize the feed using client.feed("user", "1") not client.feed("user:1")');
         }
-        
+
         utils.validateFeedSlug(feedSlug);
 		utils.validateUserId(userId);
 
